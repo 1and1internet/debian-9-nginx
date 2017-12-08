@@ -96,12 +96,11 @@ class Test1and1ApacheImage(unittest.TestCase):
 
     def test_docker_logs(self):
         expected_log_lines = [
-            "run-parts: executing /hooks/entrypoint-pre.d/00_check_euid",
-            "run-parts: executing /hooks/entrypoint-pre.d/01_ssmtp_setup",
-            "run-parts: executing /hooks/entrypoint-pre.d/02_user_group_setup",
             "run-parts: executing /hooks/entrypoint-pre.d/19_doc_root_setup",
             "run-parts: executing /hooks/entrypoint-pre.d/20_ssl_setup",
-            "run-parts: executing /hooks/supervisord-pre.d/21_cleanup_log_files"
+            "run-parts: executing /hooks/supervisord-pre.d/21_cleanup_log_files",
+            "Loading nginx config",
+            "Loading plugin /opt/configurability/goplugins/nginx.so"
         ]
         container_logs = self.container.logs().decode('utf-8')
         for expected_log_line in expected_log_lines:
