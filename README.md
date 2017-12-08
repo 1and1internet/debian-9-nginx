@@ -30,4 +30,4 @@ Please see the top of the Makefile for various variables which you may choose to
 
 ## Modifying the tests
 
-All tests are run using the tespack-framework image. See 1and1internet/testpack-framework for more information
+All tests are run using the tespack-framework image. See 1and1internet/testpack-framework for more information.
