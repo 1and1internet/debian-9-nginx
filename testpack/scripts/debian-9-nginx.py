@@ -15,8 +15,6 @@ class Test1and1ApacheImage(Test1and1Common):
     def setUpClass(cls):
         Test1and1Common.setUpClass()
         Test1and1Common.copy_test_files("testpack/files/html", "test.html", "/var/www/html")
-        details = docker.APIClient().inspect_container(container=Test1and1Common.container.id)
-        Test1and1ApacheImage.container_ip = details['NetworkSettings']['IPAddress']
 
     def file_mode_test(self, filename: str, mode: str):
         # Compare (eg) drwx???rw- to drwxr-xrw-
@@ -96,7 +94,7 @@ class Test1and1ApacheImage(Test1and1Common):
 
     def test_nginx_get(self):
         driver = webdriver.PhantomJS()
-        driver.get("http://%s:8080/test.html" % Test1and1ApacheImage.container_ip)
+        driver.get("http://%s:8080/test.html" % Test1and1Common.container_ip)
         self.assertEqual('Success', driver.title)
 
     def test_nginx_cgi_headers(self):
@@ -104,7 +102,7 @@ class Test1and1ApacheImage(Test1and1Common):
         webdriver.DesiredCapabilities.PHANTOMJS['phantomjs.page.customHeaders.X-Forwarded-For'] = "1.2.3.4"
         webdriver.DesiredCapabilities.PHANTOMJS['phantomjs.page.customHeaders.X-Forwarded-Port'] = "99"
         driver = webdriver.PhantomJS()
-        driver.get("http://%s:8080/test.html" % Test1and1ApacheImage.container_ip)
+        driver.get("http://%s:8080/test.html" % Test1and1Common.container_ip)
         self.assertEqual(
             self.execRun('bash -c "grep 1.2.3.4 /var/log/nginx/*.log | grep -iq phantomjs && echo -n true"'),
             "true",
