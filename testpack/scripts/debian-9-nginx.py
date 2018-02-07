@@ -1,16 +1,11 @@
 #!/usr/bin/env python3
 
 import unittest
-import os
-import docker
 from selenium import webdriver
-import os.path
 from testpack_helper_library.unittests.dockertests import Test1and1Common
 
 
 class Test1and1ApacheImage(Test1and1Common):
-    container_ip = None
-
     @classmethod
     def setUpClass(cls):
         Test1and1Common.setUpClass()
