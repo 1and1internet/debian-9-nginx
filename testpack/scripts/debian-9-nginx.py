@@ -99,9 +99,9 @@ class Test1and1ApacheImage(Test1and1Common):
         driver = webdriver.PhantomJS()
         driver.get("http://%s:8080/test.html" % Test1and1Common.container_ip)
         self.assertEqual(
-            self.execRun('bash -c "grep 1.2.3.4 /var/log/nginx/*.log | grep -iq phantomjs && echo -n true"'),
+            self.execRun('bash -c "grep 1.2.3.??? /var/log/nginx/*.log | grep -iq phantomjs && echo -n true"'),
             "true",
-            msg="Missing 1.2.3.4 from logs"
+            msg="Missing 1.2.3.??? from logs"
         )
 
         # </tests to run>
