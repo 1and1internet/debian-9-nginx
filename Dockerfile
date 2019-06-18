@@ -1,15 +1,16 @@
-FROM golang as configurability_nginx
+FROM golang as configurability
 MAINTAINER brian.wilkinson@1and1.co.uk
 WORKDIR /go/src/github.com/1and1internet/configurability
 RUN git clone https://github.com/1and1internet/configurability.git . \
-	&& make nginx\
-	&& echo "configurability nginx plugin successfully built"
+	&& make main nginx \
+	&& echo "configurability successfully built"
 
 FROM 1and1internet/debian-9:latest
 MAINTAINER brian.wilkinson@1and1.co.uk
 ARG DEBIAN_FRONTEND=noninteractive
 COPY files /
-COPY --from=configurability_nginx /go/src/github.com/1and1internet/configurability/bin/plugins/nginx.so /opt/configurability/goplugins
+COPY --from=configurability /go/src/github.com/1and1internet/configurability/bin/configurator /usr/bin/configurator
+COPY --from=configurability /go/src/github.com/1and1internet/configurability/bin/plugins/* /opt/configurability/goplugins/
 ENV SSL_KEY=/ssl/ssl.key \
     SSL_CERT=/ssl/ssl.crt \
     DOCUMENT_ROOT=html
