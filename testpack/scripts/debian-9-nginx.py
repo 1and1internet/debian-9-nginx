@@ -88,21 +88,9 @@ class Test1and1ApacheImage(Test1and1Common):
         self.file_mode_test("/var/run/nginx.pid", "-") # This is enough to check that it exists and is a file
 
     def test_nginx_get(self):
-        driver = webdriver.PhantomJS()
+        driver = self.getChromeDriver()
         driver.get("http://%s:8080/test.html" % Test1and1Common.container_ip)
         self.assertEqual('Success', driver.title)
-
-    def test_nginx_cgi_headers(self):
-        # We need to set the desired headers, then get a new driver for this to work
-        webdriver.DesiredCapabilities.PHANTOMJS['phantomjs.page.customHeaders.X-Forwarded-For'] = "1.2.3.4"
-        webdriver.DesiredCapabilities.PHANTOMJS['phantomjs.page.customHeaders.X-Forwarded-Port'] = "99"
-        driver = webdriver.PhantomJS()
-        driver.get("http://%s:8080/test.html" % Test1and1Common.container_ip)
-        self.assertEqual(
-            self.execRun('bash -c "grep 1.2.3.??? /var/log/nginx/*.log | grep -iq phantomjs && echo -n true"'),
-            "true",
-            msg="Missing 1.2.3.??? from logs"
-        )
 
         # </tests to run>
 
